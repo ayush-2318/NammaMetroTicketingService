@@ -24,11 +24,10 @@ public class QrDetailDto {
     @JsonProperty("validTill")
     private String validTill;
 
-//    public String convertToQrData(TicketRequest ticketRequest){
-//        String source=ticketRequest.getSourceStation();
-//        String destination=ticketRequest.getDestinationStation();
-//
-//    }
+    public String QrDetailToString(){
+        return String.format("sourceStation=%s|destinationStation=%s|validFrom=%s,validTill=%s",
+                sourceStation,destinationStation,validFrom,validTill);
+    }
 }
 
 

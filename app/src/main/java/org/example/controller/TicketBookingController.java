@@ -1,6 +1,8 @@
 package org.example.controller;
 
 import org.example.request.TicketRequest;
+import org.example.service.ConvertToQrFormatService;
+import org.example.service.GenerateQrService;
 import org.example.service.TicketPriceService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -14,13 +16,29 @@ import reactor.core.publisher.Mono;
 public class TicketBookingController {
     @Autowired
     private TicketPriceService ticketPriceService;
+
+    @Autowired
+    private ConvertToQrFormatService convertToQrFormatService;
+
+    @Autowired
+    private GenerateQrService generateQrService;
+
+
     @PostMapping("/bookTicket")
     public Mono<ResponseEntity> TicketBooking(@RequestBody TicketRequest ticketRequest){
         Mono<Boolean> isPaymentSuccessful=ticketPriceService.isPaymentSuccessful(ticketRequest);
     return   isPaymentSuccessful.map(
                 success->{
                     if (success){
-                        return new ResponseEntity<>("PaymentDone",HttpStatus.OK);
+                        try {
+                            String qrText= convertToQrFormatService.convertToQrData(ticketRequest);
+                            String qrCode=generateQrService.generateQrAsByte(qrText,200,200);
+
+                            return new ResponseEntity<>(qrCode,HttpStatus.OK);
+                        }catch (Exception ex){
+                            return new ResponseEntity<>("Not able to generate qr",HttpStatus.INTERNAL_SERVER_ERROR);
+                        }
+
                     }else {
                         return new ResponseEntity<>("Not done",HttpStatus.INTERNAL_SERVER_ERROR);
                     }

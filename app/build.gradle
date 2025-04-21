@@ -55,8 +55,14 @@ dependencies {
     //implementation 'org.springframework.kakfa:spring-kafka:3.1.1'
     implementation 'org.springframework.kafka:spring-kafka:3.1.1'
 
-    // web client
+    // web client for async
     implementation 'org.springframework.boot:spring-boot-starter-webflux'
+
+    //for generating qr
+    implementation 'com.google.zxing:core:3.4.1'
+    // matrixtoimage
+    implementation 'com.google.zxing:javase:3.4.1'
+
 
 }
 
