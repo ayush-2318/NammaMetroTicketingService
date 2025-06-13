@@ -5,13 +5,13 @@ import com.fasterxml.jackson.databind.PropertyNamingStrategy;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;
 import lombok.*;
 
-
 @Getter
 @Setter
 @JsonNaming(PropertyNamingStrategy.SnakeCaseStrategy.class)
 @NoArgsConstructor
 @AllArgsConstructor
-public class JWTDto {
+@Builder
+public class TicketInfoDto {
     @JsonProperty("ticketId")
     private String ticketId;
     @JsonProperty("from")
@@ -22,4 +22,5 @@ public class JWTDto {
     private boolean use;
     @JsonProperty("userId")
     private String userId;
+
 }

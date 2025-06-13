@@ -1,5 +1,6 @@
 package org.example.controller;
 
+import lombok.NonNull;
 import org.example.request.TicketRequest;
 import org.example.service.ConvertToQrFormatService;
 import org.example.service.GenerateQrService;
@@ -9,6 +10,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RestController;
 import reactor.core.publisher.Mono;
 
@@ -17,22 +19,23 @@ public class TicketBookingController {
     @Autowired
     private TicketPriceService ticketPriceService;
 
-    @Autowired
-    private ConvertToQrFormatService convertToQrFormatService;
+//    @Autowired
+//    private ConvertToQrFormatService convertToQrFormatService;
 
     @Autowired
     private GenerateQrService generateQrService;
 
 
     @PostMapping("/bookTicket")
-    public Mono<ResponseEntity> TicketBooking(@RequestBody TicketRequest ticketRequest){
+    public ResponseEntity  TicketBooking(@RequestHeader(value = "X-User-Id") @NonNull String userId, @RequestBody TicketRequest ticketRequest){
+        /*
         Mono<Boolean> isPaymentSuccessful=ticketPriceService.isPaymentSuccessful(ticketRequest);
     return   isPaymentSuccessful.map(
                 success->{
                     if (success){
                         try {
                             String qrText= convertToQrFormatService.convertToQrData(ticketRequest);
-                            String qrCode=generateQrService.generateQrAsByte(qrText,200,200);
+                            //String qrCode=generateQrService.generateQrAsByte(qrText,200,200);
 
                             return new ResponseEntity<>(qrCode,HttpStatus.OK);
                         }catch (Exception ex){
@@ -44,6 +47,15 @@ public class TicketBookingController {
                     }
                 }
         );
+
+         */
+        try {
+            // String qrText= convertToQrFormatService.convertToQrData(ticketRequest);
+            String qrCode=generateQrService.generateQrAsBase64(ticketRequest,userId);
+            return new ResponseEntity<>(qrCode,HttpStatus.OK);
+        }catch (Exception ex){
+            return new ResponseEntity<>("Not able to generate qr",HttpStatus.INTERNAL_SERVER_ERROR);
+        }
 
     }
 }

@@ -63,6 +63,11 @@ dependencies {
     // matrixtoimage
     implementation 'com.google.zxing:javase:3.4.1'
 
+    //jwt token
+    implementation 'io.jsonwebtoken:jjwt-api:0.12.5'
+    implementation 'io.jsonwebtoken:jjwt-impl:0.12.5'
+    implementation 'io.jsonwebtoken:jjwt-jackson:0.12.5'
+
 
 }
 

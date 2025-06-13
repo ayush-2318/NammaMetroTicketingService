@@ -29,10 +29,10 @@ public class GenerateQrService {
     @Autowired
     private JWTService jwtService;
 
-    public String generateQrAsBase64(TicketRequest ticketRequest) throws
+    public String generateQrAsBase64(TicketRequest ticketRequest,String userId) throws
             WriterException, IOException{
         //String qrText=convertToQrFormatService.convertToQrData(ticketRequest);
-        String qrText=jwtService.getJwtToken(ticketRequest);
+        String qrText=jwtService.getJwtToken(ticketRequest,userId);
         QRCodeWriter qrCodeWriter=new QRCodeWriter();
         BitMatrix bitMatrix=qrCodeWriter.encode(qrText, BarcodeFormat.QR_CODE,200,200);
         ByteArrayOutputStream outputStream=new ByteArrayOutputStream();
@@ -45,7 +45,7 @@ public class GenerateQrService {
         String qrCode= Base64.getEncoder().encodeToString(qrByteArray);
 
         //qrCode send to kafka
-        qrDetailProducer.sendEventToKafka(qrCode);
+        qrDetailProducer.sendEventToKafka(qrText);
 
         return qrCode;
 

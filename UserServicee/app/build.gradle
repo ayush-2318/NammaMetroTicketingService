@@ -37,7 +37,7 @@ dependencies {
     implementation group: 'org.springframework.boot', name: 'spring-boot-starter-web'
     implementation group: 'org.springframework.boot', name: 'spring-boot-starter-actuator'
     implementation group: 'org.springframework.cloud', name: 'spring-cloud-starter-bootstrap', version: '4.1.1'
-    //implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
     //implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
     implementation 'org.springframework.boot:spring-boot-starter-oauth2-resource-server'
     implementation 'org.springframework.boot:spring-boot-starter-security'
@@ -59,9 +59,14 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-webflux'
 
     //for generating qr
-    implementation 'com.google.zxing:core:3.4.1'
+    //implementation 'com.google.zxing:core:3.4.1'
     // matrixtoimage
-    implementation 'com.google.zxing:javase:3.4.1'
+    //implementation 'com.google.zxing:javase:3.4.1'
+
+    //sql
+    implementation group: 'mysql', name: 'mysql-connector-java', version: '8.0.33'
+    implementation 'mysql:mysql-connector-java'
+
 
     //jwt token
     implementation 'io.jsonwebtoken:jjwt-api:0.12.5'
