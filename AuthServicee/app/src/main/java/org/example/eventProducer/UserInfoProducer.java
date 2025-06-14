@@ -8,6 +8,7 @@ import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.kafka.support.KafkaHeaders;
 import org.springframework.messaging.Message;
 import org.springframework.messaging.support.MessageBuilder;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Service;
 
@@ -22,6 +23,7 @@ public class UserInfoProducer {
         this.kafkaTemplate=kafkaTemplate;
     }
 
+    @Async
     public void sendEventTokafka(UserInfoProducerDto userInfoProducerDto){
         Message<UserInfoProducerDto>message= MessageBuilder
                 .withPayload(userInfoProducerDto)

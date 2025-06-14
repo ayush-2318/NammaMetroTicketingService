@@ -15,9 +15,13 @@ import org.example.entities.UserInfo;
 public class UserInfoDto extends UserInfo {
     @JsonProperty("firstName")
     private String firstName;
-    @JsonProperty("LastName")
+    @JsonProperty("lastName")
     private String lastName;
     @JsonProperty("email")
     private String email;
+    @JsonProperty("phoneNumber")
+    private Long phoneNummer;
+    @JsonProperty("profilePicture")
+    private String profilePicture;
 
 }

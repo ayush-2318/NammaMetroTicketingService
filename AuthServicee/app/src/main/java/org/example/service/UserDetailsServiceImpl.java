@@ -3,6 +3,7 @@ package org.example.service;
 import org.example.entities.UserInfo;
 import org.example.eventProducer.UserInfoProducer;
 import org.example.model.UserInfoDto;
+import org.example.model.UserInfoProducerDto;
 import org.example.repository.UserInfoRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -53,6 +54,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         }
         String id= UUID.randomUUID().toString();
         userInfoRepo.save(new UserInfo(id,userInfoDto.getUserName(),userInfoDto.getPassword(),new HashSet<>()));
+        userInfoProducer.sendEventTokafka(new UserInfoProducerDto(userInfoDto.getFirstName(),userInfoDto.getLastName(),userInfoDto.getEmail(),userInfoDto.getPhoneNummer(),id,userInfoDto.getUserName()));
         return  id;
     }
 }
