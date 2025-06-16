@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.HashSet;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.UUID;
 
 @Service
@@ -41,6 +42,10 @@ public class UserDetailsServiceImpl implements UserDetailsService {
             throw  new UsernameNotFoundException("Could not find the user with given userName");
         }
         return new CustomUserDetails(userInfo);
+    }
+
+    public  String getUserByUserName(String userName){
+        return Optional.of(userInfoRepo.findByUserName(userName)).map(UserInfo::getUserId).orElse(null);
     }
 
     public UserInfo checkIfUserAlreadyExists(String userName){

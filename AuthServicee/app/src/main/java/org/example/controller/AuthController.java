@@ -10,9 +10,9 @@ import org.example.service.UserDetailsServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.web.bind.annotation.*;
 
 import java.io.PrintWriter;
 import java.io.StringWriter;
@@ -20,6 +20,7 @@ import java.util.Objects;
 
 @RestController
 @AllArgsConstructor
+@RequestMapping("auth/v1")
 public class AuthController {
     @Autowired
     private JWTService jwtService;
@@ -28,7 +29,7 @@ public class AuthController {
     @Autowired
     private UserDetailsServiceImpl userDetailsServiceImpl;
 
-    @PostMapping("auth/v1/signup")
+    @PostMapping("/signup")
     public ResponseEntity Signup(@RequestBody UserInfoDto userInfoDto) {
         try {
             //System.out.println("Received userName: " + userInfoDto.getFirstName());
@@ -51,5 +52,17 @@ public class AuthController {
 
             return new ResponseEntity<>(stackTrace, HttpStatus.INTERNAL_SERVER_ERROR);
         }
+    }
+
+    @GetMapping("/ping")
+    public ResponseEntity<String> ping(){
+        Authentication authentication= SecurityContextHolder.getContext().getAuthentication();
+        if(authentication !=null&&authentication.isAuthenticated()){
+            String userId=userDetailsServiceImpl.getUserByUserName(authentication.getName());
+            if(Objects.nonNull(userId)){
+                return ResponseEntity.ok(userId);
+            }
+        }
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Unauthorised");
     }
 }
