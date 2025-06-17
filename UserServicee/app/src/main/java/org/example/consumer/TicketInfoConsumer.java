@@ -13,7 +13,7 @@ public class TicketInfoConsumer {
     public TicketInfoConsumer(TicketService ticketService) {
         this.ticketService = ticketService;
     }
-    @KafkaListener(topics="${spring.kafka.topic.name1}",groupId = "${spring.kafka.consumer.group-id}")
+    @KafkaListener(topics="${spring.kafka.topic.name1}",groupId = "${spring.kafka.consumer.group-id1}",containerFactory = "ticketListenerContainerFactory")
     public void listen(String eventData){
         try {
             ticketService.saveTicketInfoToDb(eventData);

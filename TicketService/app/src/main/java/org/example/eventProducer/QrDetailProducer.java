@@ -28,6 +28,7 @@ public class QrDetailProducer {
                 .withPayload(eventData)
                 .setHeader(KafkaHeaders.TOPIC,TOPIC_NAME)
                 .build();
+        System.out.println(eventData);
         kafkaTemplate.send(message);
     }
 }
