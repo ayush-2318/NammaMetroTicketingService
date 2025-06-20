@@ -1,0 +1,48 @@
+_format_version: "2.1"
+_transform: true
+
+services:
+- name: auth-service
+  url: http://host.docker.internal:9892
+  routes:
+  - name: auth-route
+    paths:
+    - /auth/v1
+    strip_path: false
+    preserve_host: false
+
+- name: metro-service
+  url: http://host.docker.internal:9897
+  routes:
+  - name: entry-route
+    paths:
+    - /metro/v1
+    strip_path: true
+    preserve_host: false
+
+- name: ticket-service
+  url: http://host.docker.internal:9820
+  routes:
+  - name: booking-route
+    paths:
+    - /ticket/v1
+    strip_path: false
+    preserve_host: false
+  plugins:
+  - name: custom-auth
+    config:
+      auth_service_url: "http://host.docker.internal:9892/auth/v1/ping"
+
+- name: user-service
+  url: http://host.docker.internal:9893
+  routes:
+  - name: user-route
+    paths:
+    - /user/v1
+    - /ticketinfo/v1
+    strip_path: false
+    preserve_host: false
+  plugins:
+  - name: custom-auth
+    config:
+      auth_service_url: "http://host.docker.internal:9892/auth/v1/ping"
